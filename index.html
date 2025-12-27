@@ -1,60 +1,192 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Code Explainer | Learn Simply</title>
+    <title>AI Code Explainer | Learning Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
-            margin: 0;
-            padding: 0;
+            color: #1e293b;
         }
-        pre, code {
+        .code-font {
             font-family: 'Fira Code', monospace;
         }
-        .explanation-card {
-            transition: all 0.3s ease;
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background-color: #6366f1;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-right: 16px;
         }
-        .explanation-card:hover {
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        [hidden] {
+            display: none !important;
+        }
+        .section-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .section-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-        #root:empty::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            border: 4px solid #e2e8f0;
-            border-top-color: #4f46e5;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite": "https://esm.sh/vite@^7.3.0"
-  }
-}
-</script>
+    <script type="importmap">
+    {
+      "imports": {
+        "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+      }
+    }
+    </script>
 </head>
-<body>
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+<body class="min-h-screen pb-24">
+    <!-- Header -->
+    <header class="glass-header border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black text-slate-900 tracking-tight">AI Code Explainer</h1>
+                    <p class="text-xs font-bold text-indigo-500 uppercase tracking-[0.2em]">Beginner's Learning App</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 mt-10">
+        <!-- Input Hub -->
+        <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/60 p-8 mb-10 border border-slate-100">
+            <div class="mb-6">
+                <label class="block text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-3">1. Choose Language</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <select id="languageSelect" class="col-span-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 focus:ring-0 outline-none transition-all font-semibold text-slate-700 appearance-none cursor-pointer">
+                        <option value="Python">Python</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="Java">Java</option>
+                        <option value="C">C</option>
+                        <option value="C++">C++</option>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
+                        <option value="TypeScript">TypeScript</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="SQL">SQL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="relative">
+                <label class="block text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-3">2. Paste Your Code</label>
+                <div class="relative group">
+                    <textarea id="codeInput" class="w-full h-56 p-6 code-font text-sm bg-slate-900 text-indigo-100 rounded-3xl outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all resize-none shadow-2xl" placeholder="Paste your code snippet here..."></textarea>
+                    <div class="absolute top-4 right-4 text-indigo-400/30 font-bold text-[10px] uppercase">Editor</div>
+                </div>
+            </div>
+
+            <button id="explainBtn" class="w-full mt-8 py-5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] flex items-center justify-center gap-3">
+                <span>Explain My Code</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </button>
+
+            <div id="errorMessage" class="mt-6 p-4 bg-red-50 text-red-700 rounded-2xl border border-red-100 font-medium text-sm hidden"></div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-20 bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-slate-200">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-sm mb-6">
+                <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800">Your lesson starts here</h2>
+            <p class="max-w-xs mx-auto mt-3 text-slate-500 font-medium">Paste code and click explain to see the magic happen.</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsArea" class="space-y-8 hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <!-- 1. Purpose -->
+            <section class="section-card bg-white rounded-[2rem] p-8 border border-indigo-100 shadow-xl shadow-indigo-100/20">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-slate-900">1. Big Picture / Purpose</h3>
+                </div>
+                <p id="resPurpose" class="text-slate-600 text-lg leading-relaxed font-medium"></p>
+            </section>
+
+            <!-- 2. Line-by-Line -->
+            <section class="section-card bg-white rounded-[2rem] p-8 border border-slate-100 shadow-xl shadow-slate-200/40">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-slate-900">2. Line-by-Line Explanation</h3>
+                </div>
+                <div id="resSteps" class="space-y-6"></div>
+            </section>
+
+            <!-- 3. Time Complexity -->
+            <section class="section-card bg-white rounded-[2rem] p-8 border-l-[12px] border-amber-400 shadow-xl shadow-amber-100/20">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="p-2 bg-amber-50 rounded-lg text-amber-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-slate-900">3. Time Complexity (Simple)</h3>
+                </div>
+                <p id="resComplexity" class="text-slate-700 font-semibold bg-amber-50/50 p-5 rounded-2xl border border-amber-100"></p>
+            </section>
+
+            <!-- 4. Input Output -->
+            <section class="section-card bg-white rounded-[2rem] p-8 border-l-[12px] border-emerald-500 shadow-xl shadow-emerald-100/20">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-slate-900">4. Input → Output Logic</h3>
+                </div>
+                <p id="resIO" class="text-slate-700 font-bold text-lg bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100 italic"></p>
+            </section>
+
+            <!-- 5. Improvements -->
+            <section class="section-card bg-slate-900 rounded-[2.5rem] p-10 shadow-2xl">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="p-2 bg-indigo-500/20 rounded-lg text-indigo-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white">5. Ideas for Improvement</h3>
+                </div>
+                <ul id="resImprovements" class="space-y-4"></ul>
+            </section>
+        </div>
+    </main>
+
+    <footer class="mt-20 border-t border-slate-200 py-12 text-center">
+        <div class="flex flex-col items-center gap-4">
+            <div class="flex items-center gap-2 grayscale opacity-50">
+                <div class="w-6 h-6 bg-slate-900 rounded-lg"></div>
+                <span class="font-black tracking-tight">AI CODE EXPLAINER</span>
+            </div>
+            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.3em]">Built for curious minds &bull; Powered by Gemini AI</p>
+        </div>
+    </footer>
+
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>

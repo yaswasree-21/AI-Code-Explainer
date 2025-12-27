@@ -1,5 +1,5 @@
 {
-  "name": "Copy of AI Code Explainer",
-  "description": "A beginner-friendly educational platform that uses AI to break down complex code snippets into simple, easy-to-understand explanations with a focus on logic and purpose.",
+  "name": "AI Code Explainer (Vanilla)",
+  "description": "A beginner-friendly educational code explainer using pure HTML, CSS, and Vanilla JavaScript.",
   "requestFramePermissions": []
 }
